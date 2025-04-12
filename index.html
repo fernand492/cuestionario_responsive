@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cuestionario Interactivo - Preguntas Aleatorias (Completo)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      background-color: #007bff;
+      color: #fff;
+      padding: 15px 0;
+      margin: 0;
+    }
+    .container {
+      padding: 10px;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 3px;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+    }
+    .options button:hover {
+      background-color: #0056b3;
+    }
+    .options button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .annulled {
+      font-style: italic;
+      color: #888;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #eee;
+    }
+    @media (max-width: 768px) {
+      body {
+        font-size: 14px;
+      }
+      .question {
+        padding: 10px;
+      }
+      .options button {
+        font-size: 14px;
+      }
+    }
+  </style>
+  <script>
+    // Función para mezclar (shuffle) el array utilizando el algoritmo de Fisher-Yates
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+    
+    // Array de todas las preguntas (del 1 al 75 + reserva 151-153)
+    const questions = [
+      // Preguntas 1 a 20
+      {
+        text: "1. NO es una función de la Agencia Española de Protección de Datos (AEPD):",
+        options: [
+          "A) Velar por el cumplimiento de la legislación sobre protección de datos y controlar su aplicación, en especial en lo relativo a los derechos de información, acceso, rectificación, oposición y cancelación de datos.",
+          "B) Realizar formación a los responsables de Protección de Datos de los hospitales.",
+          "C) Redactar una memoria anual, que es presentada por el Director de la AEPD ante las Cortes.",
+          "D) Sancionar a toda persona responsable o encargado del tratamiento con apercibimiento cuando las operaciones de tratamiento hayan infringido lo dispuesto en la normativa de protección de datos."
+        ],
+        answer: 1
+      },
+      {
+        text: "2. El facultativo proporcionará al paciente, antes de recabar su consentimiento escrito, la información básica respecto a la intervención. ¿Cuál de las siguientes, NO se considera información básica?",
+        options: [
+          "A) El tiempo que dura la intervención.",
+          "B) Los riesgos probables en condiciones normales, conforme a la experiencia y al estado de la ciencia o directamente relacionados con el tipo de intervención.",
+          "C) Los riesgos relacionados con las circunstancias personales o profesionales del paciente.",
+          "D) Las consecuencias relevantes o de importancia que la intervención origina con seguridad."
+        ],
+        answer: 0
+      },
+      {
+        text: "3. Según el Artículo 62 de la Constitución Española, NO corresponde al Rey:",
+        options: [
+          "A) Sancionar y promulgar las leyes.",
+          "B) El Alto Patronazgo de las Reales Academias.",
+          "C) El mando supremo de las Fuerzas Armadas.",
+          "D) Ejercer el derecho de gracia con arreglo a la ley, autorizando indultos generales."
+        ],
+        answer: 3
+      },
+      {
+        text: "4. Los Delegados de Prevención serán designados por y entre los representantes del personal. El número de delegados dependerá del número de trabajadores de la empresa. Señale la respuesta INCORRECTA:",
+        options: [
+          "A) De 50 a 100 trabajadores: 2 Delegados de Prevención.",
+          "B) De 0 a 30 trabajadores: no habrá Delegados de Prevención.",
+          "C) De 31 a 49 trabajadores: un Delegado será elegido entre los Delegados de Personal.",
+          "D) De 101 a 500 trabajadores: 3 Delegados de Prevención."
+        ],
+        answer: 1
+      },
+      {
+        text: "5. ¿Qué documento NO forma parte del contenido mínimo de la historia clínica?",
+        options: [
+          "A) La hoja de interconsulta.",
+          "B) La autorización de ingreso.",
+          "C) La valoración de enfermería al ingreso.",
+          "D) La documentación relativa a la hoja clínico-estadística."
+        ],
+        answer: 2
+      },
+      {
+        text: "6. ¿Qué entidad, comisión o unidad NO crea la Ley 12/2007, de 26 de noviembre, para la promoción de la igualdad de género en Andalucía?",
+        options: [
+          "A) La Comisión Interdepartamental para la Igualdad de Mujeres y Hombres.",
+          "B) La Comisión Interdisciplinar para la Igualdad.",
+          "C) Las Unidades de Igualdad de Género en todas las Consejerías de la Junta de Andalucía.",
+          "D) El Observatorio Andaluz de la Igualdad de Género."
+        ],
+        answer: 1
+      },
+      {
+        text: "7. Según la Ley 55/2003 del Estatuto Marco del Personal Estatutario de los Servicios de Salud, NO son retribuciones complementarias:",
+        options: [
+          "A) Las pagas extraordinarias.",
+          "B) El complemento de destino.",
+          "C) El complemento de productividad.",
+          "D) El complemento específico."
+        ],
+        answer: 0
+      },
+      {
+        text: "8. Según la Ley 55/2003, de 16 de diciembre, del Estatuto Marco del personal estatutario de los servicios de salud, el tiempo de trabajo correspondiente a la jornada ordinaria no excederá de:",
+        options: [
+          "A) 7 horas ininterrumpidas.",
+          "B) 10 horas ininterrumpidas.",
+          "C) 12 horas ininterrumpidas.",
+          "D) 24 horas ininterrumpidas."
+        ],
+        answer: 2
+      },
+      {
+        text: "9. Según la Ley 14/1986, de 25 de abril, General de Sanidad, la financiación de la asistencia prestada se realizará con cargo a:",
+        options: [
+          "A) Tasas por la prestación de determinados servicios.",
+          "B) Por aportaciones de las Corporaciones Locales",
+          "C) Cotizaciones sociales.",
+          "D) Todas son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "10. La Organización Mundial de la Salud, describe las características que definirían qué es un servicio sanitario de calidad. ¿Cuál de las siguientes características NO lo es?",
+        options: [
+          "A) Oportuno.",
+          "B) Fragmentado.",
+          "C) Eficaz y eficiente.",
+          "D) Equitativo."
+        ],
+        answer: 1
+      },
+      {
+        text: "11. La cifoplastia es una técnica en la que, antes de introducir el cemento, se introducen unos balones deshinchados a través de las agujas. Cuando el cemento se endurece y se mantiene la altura del cuerpo vertebral, ¿qué procedimiento se debe utilizar?",
+        options: [
+          "A) REPOSICIÓN + SUPLEMENTO.",
+          "B) SUPLEMENTO.",
+          "C) REPOSICIÓN + SUSTITUCIÓN.",
+          "D) REPOSICIÓN."
+        ],
+        answer: 0
+      },
+      {
+        text: "12. En relación a los Grupos Relacionados por el Diagnóstico (GRD), elija la opción INCORRECTA:",
+        options: [
+          "A) Constituyen un sistema de clasificación de episodios de hospitalización en grupos con similitud clínica y en cuanto al consumo de recursos.",
+          "B) Fueron desarrollados por Robert B Fetter y John D Thompson en la Universidad de Yale.",
+          "C) Su empleo comenzó a partir de 1990, como sistema de pago prospectivo para los pacientes de Medicare atendidos en los hospitales.",
+          "D) Fueron publicados por primera vez en 1980."
+        ],
+        answer: 2
+      },
+      {
+        text: "13. Señale la opción INCORRECTA sobre las premisas con que se diseñaron los GRDs:",
+        options: [
+          "A) Que debían poder obtenerse a partir de la información habitualmente disponible en los hospitales.",
+          "B) Que debían tener una interpretabilidad clínica, que facilitara el diálogo entre médicos y gestores.",
+          "C) Que los grupos formados debían ser exhaustivos, es decir, debían permitir clasificar cualquier episodio hospitalario.",
+          "D) Que cada episodio de hospitalización pudiera ser clasificado en varios grupos."
+        ],
+        answer: 3
+      },
+      {
+        text: "14. ¿Qué Índice de Utilización de Estancias (IUE) de los siguientes sería el más idóneo?",
+        options: [
+          "A) Menor de 0.85.",
+          "B) Entre 0.85 y 0.95.",
+          "C) Entre 0.95 y 1.",
+          "D) Mayor de 1."
+        ],
+        answer: 0
+      },
+      {
+        text: "15. Los Sistemas de Clasificación de Pacientes (SCP) son agrupaciones de episodios o de pacientes atendidos en los distintos niveles asistenciales que permiten:",
+        options: [
+          "A) Su utilización en el análisis de la actividad asistencial.",
+          "B) Su utilización como sistema de ajuste de riesgos para la comparación de resultados clínicos.",
+          "C) Su utilización como sistema relacionado con el consumo de recursos.",
+          "D) Todas son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "16. La realización de una intervención quirúrgica sobre zona corporal o paciente equivocado se considera:",
+        options: [
+          "A) Suceso centinela.",
+          "B) Circunstancia.",
+          "C) Complicación.",
+          "D) Ninguna es correcta."
+        ],
+        answer: 0
+      },
+      {
+        text: "17. Para aumentar la seguridad del paciente es necesario poner los riesgos de manifiesto y prevenir así los eventos adversos mitigando sus efectos. Para conseguir esto es necesario adquirir más capacidad:",
+        options: [
+          "A) Fomentando la notificación de los errores.",
+          "B) Realizando una investigación competente de los incidentes.",
+          "C) Rastreando las debilidades del sistema.",
+          "D) Todas son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "18. Paciente embarazada de 35 semanas que ingresa por malnutrición y permanece en el hospital hasta el parto (semana 38). ¿Cuál es la codificación correcta?",
+        options: [
+          "A) O25.2 Desnutrición en el parto + Z3A.35 35 semanas de gestación + Z37.0 Nacido vivo único.",
+          "B) O25.13 Desnutrición en el embarazo, tercer trimestre + Z3A.35 35 semanas de gestación+ Z37.0 Nacido vivo único.",
+          "C) O25.2 Desnutrición en el parto + Z3A.38 38 semanas de gestación + Z37.0 Nacido vivo único.",
+          "D) O25.13 Desnutrición en el embarazo, tercer trimestre + Z3A.38 38 semanas de gestación + Z37.0 Nacido vivo único."
+        ],
+        answer: 0
+      },
+      {
+        text: "19. Mujer gestante de 13 semanas que ingresa con dolor abdominal intenso, epigástrico irradiado hacia fosa ilíaca derecha, de 24 horas de evolución. Es diagnosticada de apendicitis aguda, y se realiza apendicectomía laparoscópica. Señale la codificación correcta:",
+        options: [
+          "A) O99.612 Enfermedades del aparato digestivo que complican el embarazo, segundo trimestre + K35.80 Apendicitis aguda no especificada + Z3A.13-13 semanas de gestación.",
+          "B) K35.80 Apendicitis aguda no especificada + Z33.1 Estado de embarazo incidental.",
+          "C) O99.611 Enfermedades del aparato digestivo que complican el embarazo primer trimestre + K35.80 Apendicitis aguda no especificada + Z3A.13-13 semanas de gestación.",
+          "D) Ninguna es correcta."
+        ],
+        answer: 2
+      },
+      {
+        text: "20. ¿Qué indica tener un case-mix con valor 1?",
+        options: [
+          "A) Que la complejidad media de los enfermos atendidos es un 10% menor que la del estándar.",
+          "B) Que la complejidad media de los enfermos atendidos es la misma que la de un GRD cuyo peso sea 1.",
+          "C) Que la estancia media de los enfermos atendidos se ajusta a los requisitos de funcionamiento.",
+          "D) Que la estancia media del hospital ajustada a la casuística del estándar es 1."
+        ],
+        answer: 1
+      },
+      // Preguntas 21 a 30
+      {
+        text: "21. ¿Qué tipo de procedimiento es el más adecuado para codificar la reparación endovascular de un aneurisma aórtico abdominal o aortoiliaco?",
+        options: [
+          "A) Oclusión.",
+          "B) Restricción.",
+          "C) Reparación.",
+          "D) Dilatación."
+        ],
+        answer: 1
+      },
+      {
+        text: "22. ¿Qué valvulopatía se codifica por defecto como Reumática?",
+        options: [
+          "A) Estenosis mitral.",
+          "B) Insuficiencia mitral.",
+          "C) Cualquier afectación aortica si no hay afectación mitral o tricuspídea.",
+          "D) Cualquier afectación pulmonar."
+        ],
+        answer: 0
+      },
+      {
+        text: "23. Respecto a la codificación de la sepsis con CIE-10-ES, señale la respuesta correcta:",
+        options: [
+          "A) La codificación de la sepsis grave requiere como mínimo dos códigos.",
+          "B) Cuando coexiste con un fallo orgánico se debe presuponer que el fallo agudo se debe a sepsis.",
+          "C) Siempre se secuenciará como diagnóstico principal.",
+          "D) Será diagnóstico principal solo si es la causa del ingreso (se secuencia el foco primero, si se conoce)."
+        ],
+        answer: 0
+      },
+      {
+        text: "24. ¿Cuál de los siguientes grupos de clasificación de los procedimientos del CMBD, según HCUP, es INCORRECTO?",
+        options: [
+          "A) Diagnóstico Menor, identifica procedimientos realizados por motivos diagnósticos sin uso de quirófano.",
+          "B) Terapéutico Menor, identifica procedimientos terapéuticos sin uso de quirófano.",
+          "C) Diagnóstico Mayor, identifica procedimientos diagnósticos que requieren uso de quirófano.",
+          "D) Terapéutico Mayor, identifica procedimientos que requieren uso de quirófano, por motivos diagnósticos."
+        ],
+        answer: 3
+      },
+      {
+        text: "25. Respecto a la codificación CIE-10-ES de las neoplasias malignas con límites solapados, señale la INCORRECTA:",
+        options: [
+          "A) Las neoplasias contiguas de distinta categoría, cuya localización no pueda determinarse, se codificarán con códigos específicos de localizaciones contiguas.",
+          "B) Las neoplasias malignas contiguas dentro de la misma categoría se codificarán en subcategorías .8 ('lesiones solapadas'), salvo clasificación específica.",
+          "C) Una neoplasia maligna primaria con localización conocida, que infiltre estructuras codificables, se codificará el punto de origen de la neoplasia primaria y el código de la secundaria.",
+          "D) Una neoplasia maligna primaria con neoplasias contiguas de distintas categorías se codificarán la primera como primaria y las contiguas como metástasis."
+        ],
+        answer: 2
+      },
+      {
+        text: "26. ¿Cuál de las siguientes normas de codificación CIE-10-ES del virus Zika es INCORRECTA?",
+        options: [
+          "A) La confirmación del diagnóstico realizada por el clínico es suficiente.",
+          "B) La confirmación requiere la documentación acerca de las pruebas realizadas.",
+          "C) Si el clínico documenta 'sospechado', 'posible' o 'probable' Zika, se codificarán los síntomas o el código de contacto o exposición.",
+          "D) Es una de las excepciones de la norma general de codificación de diagnósticos de sospecha."
+        ],
+        answer: 1
+      },
+      {
+        text: "27. El valor X: externo se define como: procedimientos realizados directamente sobre la piel o mucosa, y procedimientos realizados indirectamente por la aplicación de una fuerza externa a través de la piel o mucosas. En este último caso, el abordaje externo incluye:",
+        options: [
+          "A) Dentro de un orificio, sobre estructuras visibles sin ayuda de instrumentación.",
+          "B) Para procedimientos que requieren aplicar una fuerza externa a través de planos corporales superpuestos.",
+          "C) Sobre estructuras visibles con ayuda de instrumentación.",
+          "D) Las respuestas A) y B) son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "28. El nombre de los ficheros CMBD tendrá la siguiente estructura: '???HH04AA.TXT', donde '???' identifica el ámbito del CMBD, y debe cumplimentarse:",
+        options: [
+          "A) Siempre con minúsculas.",
+          "B) Siempre con mayúsculas.",
+          "C) Es indiferente si es en mayúsculas o minúsculas.",
+          "D) Ninguna es correcta."
+        ],
+        answer: 1
+      },
+      {
+        text: "29. Cuando no se especifica si un tumor maligno es primario o secundario, será considerado:",
+        options: [
+          "A) 3.",
+          "B) 2.",
+          "C) 5.",
+          "D) 4."
+        ],
+        disabled: true
+      },
+      {
+        text: "30. ¿A qué tipo de procedimiento corresponde la definición 'extraer o eliminar una sustancia sólida de una estructura anatómica'?",
+        options: [
+          "A) Extirpación.",
+          "B) Extracción.",
+          "C) Escisión.",
+          "D) Fragmentación."
+        ],
+        answer: 0
+      },
+      // Preguntas 31 a 40
+      {
+        text: "31. ¿Qué puntuación NO se usa en la CIE-10?",
+        options: [
+          "A) Corchetes.",
+          "B) El punto y guion.",
+          "C) Los dos puntos.",
+          "D) El paréntesis."
+        ],
+        answer: 1
+      },
+      {
+        text: "32. ¿Qué código sería el correcto, en cuanto a la asistencia en un parto eutócico?",
+        options: [
+          "A) 10D00Z1 - Extracción de productos de la concepción, baja, abordaje abierto.",
+          "B) 10D07Z3 - Extracción de productos de la concepción, fórceps bajo, abordaje por orificio natural o artificial.",
+          "C) 10D07Z6 - Extracción de productos de la concepción, vacuum, abordaje orificio natural o artificial.",
+          "D) 10E0XZZ - Parto de productos de la concepción, abordaje externo."
+        ],
+        answer: 3
+      },
+      {
+        text: "33. La reducción de una fractura desplazada se codifica con el tipo de procedimiento:",
+        options: [
+          "A) Si el tratamiento se dirige únicamente a inmovilizar (escayola, férula, etc.), se codificará como Inmovilización en la sección 2 Colocación.",
+          "B) Si se coloca un dispositivo de fijación, se codificará como Inserción.",
+          "C) Reposición incluyendo la colocación de una férula o escayola, y debiéndose codificar por separado.",
+          "D) Reposición incluyendo la colocación de una férula o escayola, y NO debiéndose codificar por separado."
+        ],
+        answer: 3
+      },
+      {
+        text: "34. Hombre de 55 años que ingresa por calambres musculares de miembros inferiores, debido al uso de compuestos de manganeso en el trabajo. Señale la codificación correcta:",
+        options: [
+          "A) T57.2X1A Efecto tóxico de manganeso y sus compuestos, accidental (no intencionado), contacto inicial.",
+          "B) T57.2X1A Efecto tóxico de manganeso y sus compuestos, accidental (no intencionado), contacto inicial + R25.2 Calambres y espasmos.",
+          "C) R25.2 Calambres y espasmos + T57.2X1A Efecto tóxico de manganeso y sus compuestos, accidental (no intencionado), contacto inicial.",
+          "D) T57.2X2A Efecto tóxico de manganeso y sus compuestos, autolesión intencionada, contacto inicial + R25.2 Calambres y espasmos."
+        ],
+        answer: 1
+      },
+      {
+        text: "35. Es función del/de la Técnico/a Superior en Documentación Sanitaria:",
+        options: [
+          "A) Organizar y gestionar los archivos de documentación e historias clínicas.",
+          "B) Validar y explotar los datos del C.M.B.D. mediante herramientas estadísticas, epidemiológicas y de control de calidad.",
+          "C) Definir y evaluar el proceso de tratamiento de la información y la documentación clínica.",
+          "D) Todas las respuestas anteriores son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "36. Los códigos de causa externa son de uso obligatorio para todos los códigos:",
+        options: [
+          "A) Todos los códigos del capítulo 19, siempre que aporten información no contenida en el literal del código de la lesión o complicación.",
+          "B) Las intoxicaciones no precisan código de causa externa, ya que el propio código informa sobre la substancia y la intencionalidad del uso.",
+          "C) Todos los códigos del capítulo 19.",
+          "D) Las respuestas A) y B) son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "37. ¿Cómo codificaría un contacto para seguimiento, después de que la infección por COVID-19 se haya resuelto y los resultados de la prueba sean negativos?",
+        options: [
+          "A) U07.1 COVID-19 aunque el individuo sea asintomático.",
+          "B) Z11.52 Contacto para cribado por COVID-19.",
+          "C) Z09 Contacto para reconocimiento médico de seguimiento después de finalizar tratamiento de afecciones distintas de neoplasia maligna y Z86.16 Historia personal de COVID-19.",
+          "D) U09.9 Afección pos-COVID-19, no especificada."
+        ],
+        answer: 2
+      },
+      {
+        text: "38. Una neoplasia 'in situ' es:",
+        options: [
+          "A) Una neoplasia que está experimentando cambios malignos, pero que aún está limitada al punto de origen, sin invasión del tejido normal circundante.",
+          "B) Una neoplasia de crecimiento local y no diseminada a localizaciones adyacentes, aunque pueda causar efectos locales.",
+          "C) Una neoplasia histológicamente bien definida pero cuyo comportamiento ulterior no puede predecirse según criterios clínicos.",
+          "D) Una neoplasia de la que se desconoce la histología y comportamiento por falta de información documental."
+        ],
+        answer: 0
+      },
+      {
+        text: "39. Síndrome del túnel carpiano de la mano izquierda. Se realiza incisión abierta del ligamento transversal del carpo. Elija la codificación del procedimiento correcta:",
+        options: [
+          "A) 01N50ZZ - Liberación de nervio mediano, abordaje abierto.",
+          "B) 0MB80ZZ - Escisión de bursa y ligamento mano izquierda, abordaje abierto.",
+          "C) 0MB60ZZ - Escisión de bursa y ligamento muñeca izquierda, abordaje abierto.",
+          "D) 01B50ZZ - Escisión de nervio mediano, abordaje abierto."
+        ],
+        answer: 0
+      },
+      {
+        text: "40. Las notas tipo Excluye 1 son notas de exclusión pura que significan:",
+        options: [
+          "A) ‘Incluido aquí’.",
+          "B) ‘No codificar aquí’.",
+          "C) ‘Codificar aquí’.",
+          "D) ‘No incluido aquí’."
+        ],
+        answer: 3
+      },
+      // Preguntas 41 a 50
+      {
+        text: "41. El fallo cardiaco de alto gasto se caracteriza por:",
+        options: [
+          "A) Por un gasto cardíaco bajo, extremidades calientes, congestión pulmonar y, a veces, con una presión arterial baja, como en el shock séptico.",
+          "B) Normalmente con una frecuencia cardíaca alta (causada por arritmias, tirotoxicosis, anemia, enfermedad de Paget, iatrogénica u otros mecanismos).",
+          "C) Por un gasto cardíaco elevado, extremidades calientes, congestión pulmonar y, a veces, con una presión arterial baja, como en el shock séptico.",
+          "D) Las respuestas B) y C) son correctas."
+        ],
+        answer: 3
+      },
+      {
+        text: "42. ¿A qué sistema o aparato del cuerpo humano pertenece la hipófisis?",
+        options: [
+          "A) Endrocrino.",
+          "B) Linfático e inmunitario.",
+          "C) Nervioso.",
+          "D) Circulatorio."
+        ],
+        answer: 0
+      },
+      {
+        text: "43. Según la Ley 41/2002, de 14 de noviembre, ¿qué documento NO se encuentra en el contenido mínimo de la historia clínica?",
+        options: [
+          "A) El informe de urgencias.",
+          "B) Petición de dietas.",
+          "C) Los informes de exploraciones complementarias.",
+          "D) El informe de anestesia."
+        ],
+        answer: 1
+      },
+      {
+        text: "44. ¿Qué arteria NO nace del arco aórtico?",
+        options: [
+          "A) La subclavia izquierda.",
+          "B) El tronco braquicefálico.",
+          "C) El tronco celíaco.",
+          "D) La carótida común izquierda."
+        ],
+        answer: 2
+      },
+      {
+        text: "45. ¿Qué tipo de procedimiento utilizaremos para codificar con CIE-10-ES el tratamiento con láser para próstata?",
+        options: [
+          "A) Destrucción.",
+          "B) Radioterapia.",
+          "C) Medicina Nuclear.",
+          "D) Extirpación."
+        ],
+        answer: 0
+      },
+      {
+        text: "46. En la sección topográfica de la CIE-0, los códigos de las neoplasias malignas constan de:",
+        options: [
+          "A) 5 caracteres.",
+          "B) 6 caracteres.",
+          "C) 3 caracteres.",
+          "D) 4 caracteres."
+        ],
+        answer: 3
+      },
+      {
+        text: "47. Si una embarazada ingresa en el hospital de 27 semanas y se va de alta estando de 30 semanas, ¿qué carácter final de trimestre utilizaremos para su codificación con CIE-10-ES?",
+        options: [
+          "A) Tercer trimestre.",
+          "B) De todos los trimestres en los que está ingresada.",
+          "C) Segundo trimestre.",
+          "D) Primer trimestre."
+        ],
+        answer: 2
+      },
+      {
+        text: "48. Los factores de riesgo de la aterosclerosis son:",
+        options: [
+          "A) Tabaquismo, dislipemias, hiperadrenalismo y la hipertensión arterial.",
+          "B) La hipertensión arterial, la hiperhomocisteinemia, el tabaquismo, dislipemias y la diabetes mellitus.",
+          "C) El tabaquismo, la hipertensión arterial, la hiperhidrosis, la diabetes mellitus y las dislipemias.",
+          "D) La hipertensión arterial, el hipotiroidismo, el tabaquismo, la diabetes mellitus y las dislipemias."
+        ],
+        answer: 1
+      },
+      {
+        text: "49. ¿Cuál de estas expresiones NO hace referencia a un infarto agudo de miocardio sin onda Q?",
+        options: [
+          "A) STEMI.",
+          "B) NSTEMI.",
+          "C) IAMSEST.",
+          "D) IMNSEST."
+        ],
+        answer: 0
+      },
+      {
+        text: "50. A la hora de codificar un procedimiento, ¿en qué posición se encuentra la 'localización anatómica'?",
+        options: [
+          "A) 3.",
+          "B) 2.",
+          "C) 5.",
+          "D) 4."
+        ],
+        answer: 3
+      },
+      // Preguntas 51 a 60
+      {
+        text: "51. Los efectos adversos de sustancias con estrecho margen terapéutico (litio, digital, ACO, etc.) siempre se considerarán:",
+        options: [
+          "A) Envenenamiento / Intoxicación.",
+          "B) Efectos adversos / Reacciones adversas a medicamentos (RAM).",
+          "C) Infradosificación.",
+          "D) Secuela de efectos adverso."
+        ],
+        answer: 1
+      },
+      {
+        text: "52. El sistema TNM es el sistema de estadificación de cáncer de mayor uso. ¿Qué significa T3N0M0?",
+        options: [
+          "A) Que hay un tumor grande, que no se pueden medir los ganglios linfáticos y que no hay metástasis.",
+          "B) Que hay un tumor grande, que no se ha propagado a los ganglios linfáticos y que la metástasis no se puede medir.",
+          "C) Que hay un tumor grande, que no se ha propagado a los ganglios linfáticos ni a ninguna otra parte del cuerpo.",
+          "D) Según esta clasificación, el ejemplo descrito en el enunciado no puede darse."
+        ],
+        answer: 2
+      },
+      {
+        text: "53. Si una paciente se realiza una doble anexectomía por laparoscopia, ¿qué códigos utilizaremos de CIE-10-ES?",
+        options: [
+          "A) 0UB20ZZ Escisión, ovarios bilateral, abierto + 0UB70ZZ Escisión, trompas de Falopio bilateral, abierto.",
+          "B) 0UT20ZZ Resección, ovarios bilateral, abierto + 0UT70ZZ Resección, trompas de Falopio bilateral, abierto.",
+          "C) 0UTC4ZZ Resección cérvix, endoscópico percutáneo + 0UT24ZZ Resección, ovarios bilateral, endoscópico percutáneo.",
+          "D) 0UT24ZZ Resección, ovarios bilateral, endoscópico percutáneo + 0UT74ZZ Resección, trompas de Falopio bilateral, endoscópico percutáneo."
+        ],
+        answer: 3
+      },
+      {
+        text: "54. ¿Cuál es la definición de uretrocele?",
+        options: [
+          "A) Desplazamiento del útero, sin afectación de la pared vaginal.",
+          "B) Prolapso de la vejiga a través de la pared lateral.",
+          "C) Protusión anormal de la uretra en el canal vaginal.",
+          "D) Ninguna es correcta."
+        ],
+        answer: 2
+      },
+      {
+        text: "55. Una plestimografía arterial, la codificaremos con CIE-10-ES como:",
+        options: [
+          "A) Monitorización de pulso arterial.",
+          "B) Medición de flujo arterial.",
+          "C) Monitorización de flujo arterial.",
+          "D) Medición de pulso arterial."
+        ],
+        answer: 3
+      },
+      {
+        text: "56. ¿Cómo se codifica (CIE-10-ES) una neoplasia cuando no se especifica si un tumor maligno es primario o secundario?",
+        options: [
+          "A) De comportamiento incierto.",
+          "B) De comportamiento no especificado.",
+          "C) Como primario excepto en los tumores de hígado y del sistema linfático.",
+          "D) Primario siempre."
+        ],
+        answer: 2
+      },
+      {
+        text: "57. Respecto a las intoxicaciones, efectos tóxicos, efectos adversos e infradosificación, señale la respuesta correcta:",
+        options: [
+          "A) Efecto adverso: Afección causada por una droga u otra sustancia terapéutica cuando se usa incorrectamente.",
+          "B) Envenenamiento: Condición causada por una sustancia terapéutica cuando se usa correctamente.",
+          "C) Efecto toxico: Cuando una sustancia perjudicial (con fines principalmente no terapéuticos) es ingerida o entra en contacto con una persona.",
+          "D) Infradosificación: Afección causada por suspensión o disminución de un medicamento por indicación del médico."
+        ],
+        answer: 2
+      },
+      {
+        text: "58. Indique en qué caso NO utilizaremos el séptimo carácter 0 en la codificación de obstetricia con CIE-10-ES:",
+        options: [
+          "A) Cuando clínicamente no es posible determinar el feto afectado.",
+          "B) Para gestaciones múltiples, en las que todos los fetos están afectados por una misma condición.",
+          "C) Cuando la documentación en la historia es insuficiente para determinar el feto afectado, y no es posible más información.",
+          "D) Para gestaciones únicas."
+        ],
+        answer: 1
+      },
+      {
+        text: "59. ¿Dónde se produce el intercambio de oxígeno y dióxido de carbono entre el pulmón y la sangre durante la respiración?",
+        options: [
+          "A) Bronquiolos.",
+          "B) Bronquios.",
+          "C) Pleura.",
+          "D) Alveolos."
+        ],
+        answer: 3
+      },
+      {
+        text: "60. Los procedimientos de desbridamientos de úlceras, en los que no se tenga documentados el plano de profundidad en la que se realiza dicho desbridamiento, se codificarán como realizados en:",
+        options: [
+          "A) Tejido subcutáneo.",
+          "B) Huesos, tendones, ligamentos, etc.",
+          "C) Piel.",
+          "D) Regiones Anatómicas Generales."
+        ],
+        answer: 0
+      },
+      // Preguntas 61 a 75 (Parte principal)
+      {
+        text: "61. El ritmo cardiaco, en condiciones normales, debe ser constante y presentar una frecuencia:\nA) Entre 70 y 100 pulsaciones por minuto en reposo.\nB) Entre 80 y 110 pulsaciones por minuto en reposo.\nC) Entre 60 y 110 pulsaciones por minuto en reposo.\nD) Entre 50 y 100 pulsaciones por minuto en reposo.",
+        options: [
+          "A) Entre 70 y 100 pulsaciones por minuto en reposo.",
+          "B) Entre 80 y 110 pulsaciones por minuto en reposo.",
+          "C) Entre 60 y 110 pulsaciones por minuto en reposo.",
+          "D) Entre 50 y 100 pulsaciones por minuto en reposo."
+        ],
+        answer: 3
+      },
+      {
+        text: "62. ¿Qué código debe utilizarse para codificar el plastrón apendicular, si no tenemos más especificación?\nA) K35.31 Apendicitis aguda con peritonitis y gangrena localizadas, sin perforación.\nB) K35.32 Apendicitis aguda con perforación y peritonitis localizada, sin absceso.\nC) K35.80 Apendicitis aguda no especificada.\nD) K35.21 Apendicitis aguda con peritonitis generalizada, con absceso.",
+        options: [
+          "A) K35.31 Apendicitis aguda con peritonitis y gangrena localizadas, sin perforación.",
+          "B) K35.32 Apendicitis aguda con perforación y peritonitis localizada, sin absceso.",
+          "C) K35.80 Apendicitis aguda no especificada.",
+          "D) K35.21 Apendicitis aguda con peritonitis generalizada, con absceso."
+        ],
+        answer: 1
+      },
+      {
+        text: "63. ¿Cómo se codifica la alcoholización percutánea como tratamiento para algunos casos de hepatocarcinoma?\nA) 0F513ZF Destrucción de hígado, abordaje percutáneo, electroporación irreversible\nB) 0F513ZZ Destrucción de hígado, abordaje percutáneo\nC) 3E0J3TZ Introducción en tracto biliar y pancreático de agente destructivo, abordaje percutáneo.\nD) 3E0J3GC Introducción en tracto biliar y pancreático de otra sustancia, abordaje percutáneo.",
+        options: [
+          "A) 0F513ZF Destrucción de hígado, abordaje percutáneo, electroporación irreversible",
+          "B) 0F513ZZ Destrucción de hígado, abordaje percutáneo",
+          "C) 3E0J3TZ Introducción en tracto biliar y pancreático de agente destructivo, abordaje percutáneo.",
+          "D) 3E0J3GC Introducción en tracto biliar y pancreático de otra sustancia, abordaje percutáneo."
+        ],
+        answer: 2
+      },
+      {
+        text: "64. Señale en que sección de la CIE-10-ES Procedimientos, se codifica una aféresis de células madres hematopoyéticas:",
+        options: [
+          "A) Administración.",
+          "B) Nueva tecnología.",
+          "C) Terapias extracorpóreas o sistémicas.",
+          "D) Medicina nuclear."
+        ],
+        answer: 2
+      },
+      {
+        text: "65. ¿Cuántos procedimientos quirúrgicos, diagnósticos y/o terapéuticos admite el Conjunto Mínimo Básico de Datos de Andalucía (CMBDA)?",
+        options: [
+          "A) 20.",
+          "B) 15.",
+          "C) 25.",
+          "D) 30."
+        ],
+        answer: 0
+      },
+      {
+        text: "66. ¿Cuál de los siguientes síndromes NO ES un síndrome oftalmológico?",
+        options: [
+          "A) Síndrome de Vogt-Koyanagi.",
+          "B) Síndrome de Foster-Kennedy.",
+          "C) Enfermedad de Ménière.",
+          "D) Síndrome de Duane."
+        ],
+        answer: 2
+      },
+      {
+        text: "67. ¿Cuál sería el diagnóstico principal en una infección respiratoria aguda producida en el contexto de una infección por coronavirus COVID-19 (SARS-CoV-2)?",
+        options: [
+          "A) J44.0 Enfermedad pulmonar obstructiva crónica con infección (aguda) de las vías respiratorias inferiores.",
+          "B) U07.1 COVID-19.",
+          "C) J12.82 Neumonía por enfermedad de coronavirus 2019.",
+          "D) J22 Infección aguda del tracto respiratorio inferior, no especificada."
+        ],
+        answer: 1
+      },
+      {
+        text: "68. ¿Cuál de los siguientes indicadores de la AHRQ (Agency for Healthcare Research and Quality) analizan la calidad de la asistencia dentro del hospital, incluyendo: el volumen de procedimientos de alta tecnología o muy complejos, la mortalidad intrahospitalaria tras determinados procedimientos y el uso de determinadas técnicas?",
+        options: [
+          "A) Indicadores de Calidad Preventivos (PQI).",
+          "B) Indicadores sobre la Seguridad de los Pacientes (PSI).",
+          "C) Indicadores de Calidad en Pacientes Ingresados (IQI).",
+          "D) Ninguno de los anteriores."
+        ],
+        answer: 2
+      },
+      {
+        text: "69. ¿Cómo debe codificarse una criobiopsia de língula pulmonar?",
+        options: [
+          "A) 0BBH8ZX Escisión de língula pulmonar, diagnóstico, abordaje orificio natural o artificial, endoscópico.",
+          "B) 3E0F8TZ Administración, Tracto Respiratorio, agente destructivo, abordaje orificio natural o artificial, endoscópico.",
+          "C) 0BDH8ZX Extracción de língula pulmonar, diagnóstico, abordaje orificio natural o artificial, endoscópico.",
+          "D) 0BBH8ZX Escisión de língula pulmonar, diagnóstico, abordaje orificio natural o artificial, endoscópico + 3E0F8TZ Administración, Tracto Respiratorio, agente destructivo, abordaje orificio natural o artificial, endoscópico."
+        ],
+        answer: 2
+      },
+      {
+        text: "70. ¿Cómo debe codificarse un infarto tipo 2 debido a flutter paroxístico?",
+        options: [
+          "A) I21.A1 Infarto de miocardio tipo 2 + I48.92 Flutter auricular no especificado.",
+          "B) I21.9 Infarto agudo de miocardio, no especificado + I48.92 Flutter auricular no especificado.",
+          "C) Solo I21.A1 Infarto de miocardio tipo 2.",
+          "D) I48.92 Flutter auricular no especificado + I21.A1 Infarto de miocardio tipo 2."
+        ],
+        answer: 3
+      },
+      {
+        text: "71. ¿Qué documento clínico NO se considera de ayuda para la codificación clínica?",
+        options: [
+          "A) Informes clínicos radiológicos.",
+          "B) Informe interconsultas.",
+          "C) Electrocardiograma.",
+          "D) Hoja de observaciones de enfermería."
+        ],
+        answer: 2
+      },
+      {
+        text: "72. Respecto a las intoxicaciones, efectos tóxicos, efectos adversos e infradosificación, señale la afirmación INCORRECTA:",
+        options: [
+          "A) Debe haber presencia clara de consumo.",
+          "B) Debe haber síntomas o signos de intoxicación compatibles con el efecto de la sustancia o sustancias.",
+          "C) Los síntomas y signos no pueden ser explicados por ninguna enfermedad médica no relacionada con el consumo, ni por otro trastorno mental o del comportamiento.",
+          "D) Debe ser voluntaria."
+        ],
+        answer: 3
+      },
+      {
+        text: "73. ¿Qué nombre recibe el procedimiento que permite respetar la libertad de las personas enfermas para decidir sobre su cuerpo, su salud y su vida, permitiéndoles así asumir sus propias responsabilidades en la toma de decisiones sanitarias?",
+        options: [
+          "A) Registro de voluntades vitales anticipadas.",
+          "B) Registro nacional de instrucciones previas.",
+          "C) Libre elección de centro sanitario y profesional.",
+          "D) Consentimiento informado."
+        ],
+        answer: 3
+      },
+      {
+        text: "74. ¿Cómo se codifica con CIE-10-ES el Síndrome del Marcapasos?",
+        options: [
+          "A) Es una complicación del marcapasos, por lo que se asignará T82.897A - Otra complicación especificada de prótesis, implantes e injertos cardiacos, contacto inicial.",
+          "B) Es la presencia de síntomas y signos relacionados con una respuesta hemodinámica anormal, por lo que se codificarán los signos o síntomas especificados.",
+          "C) Como no se trata estrictamente de una complicación del marcapasos, se codificará con el código I45.89 Otros trastornos de conducción especificados.",
+          "D) Al aparecer en cualquier momento tras el implante, se codificará con codificación múltiple: I97.190 + I45.89."
+        ],
+        answer: 3
+      },
+      {
+        text: "75. Señale la respuesta correcta respecto a la neumonía asociada a ventilación mecánica:",
+        options: [
+          "A) Precisa un código adicional para identificar el microorganismo causal, si se conoce.",
+          "B) Precisa un código adicional para identificar el tipo de neumonía (categorías J12 - J18).",
+          "C) Debe ser asignado (por defecto) en todos los casos en los que un paciente tiene una neumonía y está conectado a un respirador mecánico.",
+          "D) Debe añadirse un código de causa externa para indicar el tipo de procedimiento."
+        ],
+        answer: 0
+      },
+      // Preguntas Reserva (151 a 153)
+      {
+        text: "151. La CIE-10-ES Procedimientos consta de:",
+        options: [
+          "A) 15 secciones.",
+          "B) 18 secciones.",
+          "C) 17 secciones.",
+          "D) 16 secciones."
+        ],
+        answer: 2
+      },
+      {
+        text: "152. Señale la respuesta INCORRECTA respecto a la trombocitopenia:\nA) Es el aumento de plaquetas en la sangre.\nB) Se le denomina también plaquetopenia.\nC) Se caracteriza por mayor facilidad para el sangrado, con hematomas y hemorragias en distintas partes corporales.\nD) Puede ser hereditaria o adquirida.",
+        options: [
+          "A) Es el aumento de plaquetas en la sangre.",
+          "B) Se le denomina también plaquetopenia.",
+          "C) Se caracteriza por mayor facilidad para el sangrado, con hematomas y hemorragias en distintas partes corporales.",
+          "D) Puede ser hereditaria o adquirida."
+        ],
+        answer: 0
+      },
+      {
+        text: "153. ¿Cuál de las siguientes alteraciones hidroelectrolíticas hace referencia a una alteración de potasio?\nA) Hiponatremia e hipernatremia.\nB) Hipocalcemia e hipercalcemia.\nC) Hipocalemia e hipercalemia.\nD) Ninguna de los anteriores.",
+        options: [
+          "A) Hiponatremia e hipernatremia.",
+          "B) Hipocalcemia e hipercalcemia.",
+          "C) Hipocalemia e hipercalemia.",
+          "D) Ninguna de los anteriores."
+        ],
+        answer: 2
+      }
+    ];
+
+    // Mezclamos el array de preguntas de forma aleatoria
+    const shuffledQuestions = shuffle(questions);
+
+    function loadQuiz() {
+      const container = document.getElementById("quiz-container");
+      shuffledQuestions.forEach((q) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question";
+        // Muestra el enunciado tal cual (sin numeración adicional)
+        questionDiv.innerHTML = `<p><strong>${q.text}</strong></p>`;
+        
+        if (q.disabled) {
+          const annulledMsg = document.createElement("div");
+          annulledMsg.className = "annulled";
+          annulledMsg.textContent = "Esta pregunta ha sido anulada.";
+          questionDiv.appendChild(annulledMsg);
+        } else {
+          const optionsDiv = document.createElement("div");
+          optionsDiv.className = "options";
+          q.options.forEach((optionText, optionIndex) => {
+            const btn = document.createElement("button");
+            btn.textContent = optionText;
+            btn.onclick = () => {
+              if (optionIndex === q.answer) {
+                alert("¡Correcto!");
+              } else {
+                alert("Incorrecto. La respuesta correcta es: " + q.options[q.answer]);
+              }
+              optionsDiv.querySelectorAll("button").forEach(b => b.disabled = true);
+            };
+            optionsDiv.appendChild(btn);
+          });
+          questionDiv.appendChild(optionsDiv);
+        }
+        container.appendChild(questionDiv);
+      });
+    }
+
+    window.onload = loadQuiz;
+  </script>
+</head>
+<body>
+  <h1>Cuestionario Interactivo</h1>
+  <div class="container" id="quiz-container"></div>
+</body>
+</html>
